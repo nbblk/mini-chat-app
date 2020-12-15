@@ -31,10 +31,27 @@ h1 {
   align-items: center;
 }
 
-textarea {
+.chatbox {
   width: 90%;
   height: 70%;
   background-color: rgb(117, 115, 115);
+  overflow: scroll;
+}
+
+.username {
+  margin-left: 5px;
+  color: yellow;
+  font-size: small;
+}
+
+.message {
+  display: inline-block;
+  width: 80%;
+  height: 30px;
+  margin: 10px;
+  background-color: transparent;
+  color: #fff;
+  font-size: small;
 }
 
 .chat input {

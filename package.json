@@ -1,11 +1,12 @@
 {
-  "name": "chat-app",
+  "name": "chat-backend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
+    "axios": "^0.21.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
@@ -34,5 +35,24 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "devDependencies": {
+    "jest-websocket-mock": "^2.2.0",
+    "mock-socket": "^9.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nbblk/mini-chat-app.git"
+  },
+  "keywords": [
+    "websocket"
+  ],
+  "author": "blks",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nbblk/mini-chat-app/issues"
+  },
+  "homepage": "https://github.com/nbblk/mini-chat-app#readme"
 }
