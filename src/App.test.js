@@ -3,6 +3,8 @@ import userEvent from '@testing-library/user-event';
 import WS from 'jest-websocket-mock';
 import App from './App';
 
+const client = new WebSocket('ws://localhost:1234');
+const server = new WS('ws://localhost:1234');
 
 test('renders username and button', () => {
   render(<App />);
@@ -27,22 +29,17 @@ test('renders chat after clicking submit', async () => {
   expect(screen.getByRole('button')).toHaveTextContent('Enter');
 });
 
-it('connect websocket response', async done => {
-  await new Promise(resolve => setTimeout(resolve, 1000))
-  const server = new WS('ws://localhost:3001');
-  const client = new WebSocket("ws://localhost:3000");
-  await server.connected;
-  client.send('hi');
-  await expect(server).toReceiveMessage("hi");
+test('renders message after clicking enter', async () => {
+  render( <App /> );
+  userEvent.type(screen.getByTestId('landing-text'), 'username');
+  await userEvent.click(screen.getByText('Submit'));
 
-}, 50000);
-// test('renders message after clicking enter', async () => {
-//   render(<App />);
-//   userEvent.type(screen.getByTestId('landing-text'), 'username');
-//   await userEvent.click(screen.getByText('Submit'));
-  
-//   userEvent.type(screen.getByTestId('chat-text'), 'hi there');
-//   await userEvent.click(screen.getByText('Enter'));
-  
-//   expect(screen.getByTestId('chatbox')).toContainElement(screen.getByTestId('message'));
-// });
+  jest.setTimeout(setTimeout(async () => {
+    await server.connected;
+    userEvent.type(screen.getByTestId('chat-text'), 'hi there');
+    await userEvent.click(screen.getByText('Enter'));
+  }, 1000));
+
+  expect(screen.getByTestId('chatbox')).toContainElement(screen.getByTestId('message'));
+  server.close();
+});
