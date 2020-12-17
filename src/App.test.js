@@ -37,9 +37,11 @@ test('renders message after clicking enter', async () => {
   jest.setTimeout(setTimeout(async () => {
     await server.connected;
     userEvent.type(screen.getByTestId('chat-text'), 'hi there');
+    expect(screen.getByTestId('chat-text')).toHaveValue('hi there');
     await userEvent.click(screen.getByText('Enter'));
+    expect(screen.getByTestId('chat-text')).toBeEmpty();
+    expect(screen.getByTestId('chatbox')).toContainElement(screen.getByTestId('message'));
   }, 1000));
 
-  expect(screen.getByTestId('chatbox')).toContainElement(screen.getByTestId('message'));
   server.close();
 });

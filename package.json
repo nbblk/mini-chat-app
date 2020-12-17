@@ -35,24 +35,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "main": "index.js",
-  "devDependencies": {
-    "jest-websocket-mock": "^2.2.0",
-    "mock-socket": "^9.0.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nbblk/mini-chat-app.git"
-  },
-  "keywords": [
-    "websocket"
-  ],
-  "author": "blks",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/nbblk/mini-chat-app/issues"
-  },
-  "homepage": "https://github.com/nbblk/mini-chat-app#readme"
+  }
 }
