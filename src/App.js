@@ -7,7 +7,7 @@ const connection = new WebSocket('ws://localhost:3001');
 connection.onopen = () => console.log('Connection is opened');
 connection.onerror = (err) => console.error(err);
 connection.onmessage = (message) => {
-      console.log(message);
+  console.log(message);
 }  
 
 class App extends Component {

@@ -45,3 +45,31 @@ test('renders message after clicking enter', async () => {
 
   server.close();
 });
+
+test('server sends the message with the same format client sent', () => {
+  jest.setTimeout(setTimeout(async () => {
+    await server.connected;
+    client.send({'username': 'hello', 'message': 'message'});
+    expect(server).toHaveReceivedMessages({'username': 'hello', 'message': 'message'});
+    expect(client).toHaveReceivedMessages({'username': 'username', 'message': 'hi there!'});
+  }, 1000));
+  server.close();
+});
+
+test('2 clients get same message from server', () => {
+  jest.setTimeout(setTimeout(async () => {
+  const client1 = new WebSocket('ws://localhost:1234');
+  await server.connected;
+  
+  const client2 = new WebSocket('ws://localhost:1234');
+  await server.connected;
+  
+  const messages = { client1: [], client2: []};
+  client1.onmessage = e => messages.client1.push(e.data);
+  client2.onmessage = e => messages.client2.push(e.data);
+
+  client1.send({'username': 'username', 'message': 'hi there!'});
+  expect(messages).toEqual({ client1: [{'username': 'username', 'message': 'hi there!'}], client2: [{'username': 'username', 'message': 'hi there!'}]});
+}, 1000));
+  server.close();
+});
