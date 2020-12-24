@@ -2,13 +2,7 @@ import React, { Component } from 'react';
 
 import './App.css';
 
-const connection = new WebSocket('ws://localhost:3001');
-
-connection.onopen = () => console.log('Connection is opened');
-connection.onerror = (err) => console.error(err);
-connection.onmessage = (message) => {
-  console.log(message);
-}  
+var connection = new WebSocket('ws://localhost:3001');
 
 class App extends Component {
   state = {
@@ -17,8 +11,7 @@ class App extends Component {
     message: '',
     messages: []
   }
-
-
+  
   submitHandler(event) {
     event.preventDefault();
     if (this.state.username) {
@@ -37,10 +30,24 @@ class App extends Component {
 
   enterHandler(event) {
     event.preventDefault();
-    this.setState({ messages: [ ...this.state.messages, this.state.message]}); 
     this.setState({ message: '' });
-    connection.send(JSON.stringify({username: localStorage.getItem('username'), message: this.state.message}));
+    connection.send(JSON.stringify({ username: localStorage.getItem('username'), message: this.state.message}));   
   }
+
+  addMessage(message) { 
+    this.setState({ messages: [message, ...this.state.messages]});
+  }
+
+  componentDidMount() {
+   connection.onmessage = (event) => {
+      this.addMessage(JSON.parse(event.data));
+    }
+
+    connection.onclose = () => {
+      console.log('Connection is disconnected');
+    }
+  }
+
 
   render () {
     let element = null;
@@ -50,8 +57,8 @@ class App extends Component {
         <form aria-label="form" onSubmit={(event) => this.enterHandler(event)}>
           <div data-testid="chatbox" className="chatbox">
             {this.state.messages.map((message, index) => { return <div data-testid="message" key={index}>
-                <b className="username">{localStorage.getItem('username')}</b>
-                <p className="message">{message}</p>
+                <b className="username">{message.username}</b>
+                <p className="message">{message.message}</p>
                 </div>})}
           </div>
           <input type="text" data-testid="chat-text" placeholder="Enter a message" onChange={(event) => this.messageHandler(event)} value={this.state.message || ''}/>
