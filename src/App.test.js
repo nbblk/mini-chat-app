@@ -73,3 +73,17 @@ test('2 clients get same message from server', () => {
 }, 1000));
   server.close();
 });
+
+test('when a client gets a message, message has a class `other`', () => {
+  jest.setTimeout(setTimeout(async () => {
+    const client1 = new WebSocket('ws://localhost:1234');
+    await server.connected;
+    
+    const client2 = new WebSocket('ws://localhost:1234');
+    await server.connected;
+
+    client1.send({'username': 'me', 'message': 'hey'});
+    client2.send({'username': 'you', 'message': 'have any christmas plan?'});
+    expect(screen.queryByTestId('message')).hasClass('other').hasStyle('color: #b598f8');
+  }), 1000);
+});

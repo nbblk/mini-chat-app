@@ -54,6 +54,10 @@ h1 {
   font-size: small;
 }
 
+.other .username {
+  color:#b598f8;
+}
+
 .chat input {
   width: 90%;
 }
